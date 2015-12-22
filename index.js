@@ -7,7 +7,7 @@ var path = require('path');
 var pjson = require('./package.json');
 
 function TestWebserver(websitesFolder, port) {
-    this.websitesFolder = websitesFolder ? websitesFolder : './resources/websites/';
+    this.websitesFolder = websitesFolder ? websitesFolder : path.join(__dirname, './resources/websites/');
     this.port = port ? port : pjson.config.port;
     this.host = 'localhost';
     if (path.resolve(this.websitesFolder) !== this.websitesFolder) {
