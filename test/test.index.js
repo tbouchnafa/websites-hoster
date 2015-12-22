@@ -6,7 +6,7 @@ describe('Webserver Class', function () {
 
     var websites;
     var Webserver = require('../index.js');
-    var server = new Webserver('./resources/websites', pjson.config.port);
+    var server = new Webserver();
     before(function (done) {
         server.start(function () {
             websites = server.getAvailableWebsites();

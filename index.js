@@ -4,10 +4,11 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var path = require('path');
+var pjson = require('./package.json');
 
 function TestWebserver(websitesFolder, port) {
-    this.websitesFolder = websitesFolder;
-    this.port = port;
+    this.websitesFolder = websitesFolder ? websitesFolder : './resources/websites/';
+    this.port = port ? port : pjson.config.port;
     this.host = 'localhost';
     if (path.resolve(this.websitesFolder) !== this.websitesFolder) {
         this.websitesFolder = path.resolve(this.websitesFolder);
