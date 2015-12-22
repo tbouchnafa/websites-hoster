@@ -1,7 +1,7 @@
 "use strict";
 
-var Webserver = require('../spec/webserver.js');
-var server = new Webserver('./test/websites', 7777);
+var Webserver = require('./webserver.js');
+var server = new Webserver('./resources/websites', 7777);
 
 server.start(function () {
     var websites = server.getAvailableWebsites();

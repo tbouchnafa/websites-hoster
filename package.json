@@ -10,6 +10,9 @@
     "local",
     "webserver"
   ],
-  "author": "froth tbouchnafa",
-  "license": "ISC"
+  "author": "Frank Roth (frank.roth@1und1.de), Thami Bouchnafa (thami.bouchnafa@1und1.de)",
+  "license": "1&1 Internet AG",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
 }
