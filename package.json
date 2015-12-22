@@ -1,0 +1,15 @@
+{
+  "name": "local-webserver",
+  "version": "0.0.1",
+  "description": "local webserver to host some local websites ",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec test/**/*.js"
+  },
+  "keywords": [
+    "local",
+    "webserver"
+  ],
+  "author": "froth tbouchnafa",
+  "license": "ISC"
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slideshow</title>
+</head>
+
+<script>
+    var setGetParameter = function (paramName, paramValue) {
+        var url = window.location.href;
+        if (url.indexOf(paramName + "=") >= 0) {
+            var prefix = url.substring(0, url.indexOf(paramName));
+            var suffix = url.substring(url.indexOf(paramName));
+            suffix = suffix.substring(suffix.indexOf("=") + 1);
+            suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
+            url = prefix + paramName + "=" + paramValue + suffix;
+        }
+        else {
+            if (url.indexOf("?") < 0)
+                url += "?" + paramName + "=" + paramValue;
+            else
+                url += "&" + paramName + "=" + paramValue;
+        }
+        window.location.href = url;
+    };
+
+    var getParameter = function (key) {
+        var query = window.location.search.substring(1);
+        var pairs = query.split('&');
+
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i].split('=');
+            if (pair[0] == key) {
+                if (pair[1].length > 0)
+                    return pair[1];
+            }
+        }
+
+        return undefined;
+    };
+</script>
+
+<body>
+
+<div id="full">
+    <div id="backdrop">
+    </div>
+
+
+    <script>
+        var IMAGES_COUNT = 4;
+
+        var key = 'img';
+        var value = getParameter(key);
+        if (value && value < IMAGES_COUNT) {
+            document.write('<div id="ressource"><a title="Open full view" href="javascript:void(0);"><img galleryimg="false" border="0" width="300" height="300" src="./images/image' + value + '.jpg"></a></div>');
+        }
+    </script>
+
+
+    <div id="text_head" style="font-size:12pt;color:#ffffff;">
+        <script>
+            var key = 'img';
+            var value = getParameter(key);
+            var strings = ["default page party", "i will find you", "example sitemap", "tomadata_build"];
+            document.write(strings[value]);
+        </script>
+    </div>
+
+    <div id="index">
+    </div>
+
+    <script>
+        var key = 'img';
+        var value = getParameter(key);
+        if (value && value < IMAGES_COUNT) {
+            document.write('<div id="next"><a href="javascript:void(0);" onclick="setGetParameter(key, (parseInt(value) + 1));return false;">next</a></div>');
+        }
+    </script>
+
+</div>
+
+
+</body>
+</html>
