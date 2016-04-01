@@ -1,5 +1,5 @@
 {
-  "name": "local-webserver",
+  "name": "websites-hoster",
   "version": "0.0.1",
   "description": "local webserver to host some local websites ",
   "main": "index.js",
@@ -10,12 +10,24 @@
     "local",
     "webserver"
   ],
-  "author": "Frank Roth (frank.roth@1und1.de), Thami Bouchnafa (thami.bouchnafa@1und1.de)",
-  "license": "1&1 Internet AG",
+  "author": "Frank Roth (frank.roth@gmail.com)",
+  "license": "ISC",
   "dependencies": {
     "express": "^4.13.3"
   },
   "config": {
+    "host": "localhost",
     "port": 7777
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "needle": "^1.0.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbouchnafa/websites-hoster.git"
   }
 }

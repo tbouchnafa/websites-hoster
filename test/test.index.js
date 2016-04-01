@@ -1,15 +1,19 @@
 "use strict";
+
 var assert = require('assert');
+var needle = require('needle');
 var pjson = require('../package.json');
 
 describe('Webserver Class', function () {
 
     var websites;
-    var Webserver = require('../index.js');
+    var Webserver = require('../index');
     var server = new Webserver();
+
     before(function (done) {
-        server.start(function () {
-            websites = server.getAvailableWebsites();
+        server.start(function (error, result) {
+            assert.ifError(error);
+            websites = result;
             done();
         });
     });
@@ -24,14 +28,16 @@ describe('Webserver Class', function () {
 
             assert.equal(server.port, pjson.config.port);
 
-            var count = 0;
-            for (var property in websites) {
-                if (websites.hasOwnProperty(property)) {
-                    ++count;
-                }
-            }
-            assert.equal(count > 0, true, 'no websites found');
-            done();
+            assert.equal(Object.keys(websites).length > 0, true, 'no websites found');
+
+            assert.ok(websites['cassing.de']);
+            assert.equal(websites['cassing.de'], 'http://localhost:7777/cassing.de/index.html');
+
+            needle.get(websites['cassing.de'], function(error, response) {
+                assert.ifError(error);
+                assert.ok(response.body);
+                done();
+            })
         });
     });
 });
