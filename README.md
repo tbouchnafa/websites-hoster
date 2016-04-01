@@ -2,7 +2,7 @@
 hosts local websites that have been downloaded
 
 ### Example use 
-``javascript 
+```js
 
 var websites;
 var Webserver = require('./index');
@@ -13,12 +13,12 @@ server.start(function (error, result) {
     console.log(JSON.stringify(result, null, 2));
 });
 
-``
+```
 
 ### Result 
 
-``javascript
+```json
 {
     "cassing.de": "http://localhost:9900/cassing.de/index.html"
 }
-``
+```
