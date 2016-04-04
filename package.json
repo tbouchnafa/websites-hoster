@@ -1,6 +1,6 @@
 {
   "name": "websites-hoster",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "local webserver to host some local websites ",
   "main": "index.js",
   "scripts": {
