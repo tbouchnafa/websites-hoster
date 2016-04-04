@@ -13,6 +13,7 @@
   "author": "Frank Roth (frank.roth@gmail.com)",
   "license": "ISC",
   "dependencies": {
+    "debug": "^2.2.0",
     "express": "^4.13.3"
   },
   "config": {

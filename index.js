@@ -1,15 +1,17 @@
 "use strict";
 
-var express = require('express');
-var app = express();
 var fs = require('fs');
 var path = require('path');
+var express = require('express');
 var pjson = require('./package.json');
+var debug = require('debug')('websites-hoster:server');
+var app = express();
 
 function Webserver(websites_folder, host, port) {
     this.websites_folder = websites_folder ? websites_folder : path.join(__dirname, 'resources/websites');
     this.host = host ? host : pjson.config.host;
     this.port = port ? port : pjson.config.port;
+    this.source_port = port ? port : pjson.config.port;
     if (path.resolve(this.websites_folder) !== this.websites_folder) {
         this.websites_folder = path.resolve(this.websites_folder);
     }
@@ -17,7 +19,6 @@ function Webserver(websites_folder, host, port) {
 }
 
 Webserver.prototype.start = function (callback) {
-
     var self = this;
 
     app.get(/^(.+)$/, function (req, res) {
@@ -25,7 +26,15 @@ Webserver.prototype.start = function (callback) {
     });
 
     this.server = app.listen(this.port, function () {
+        if(self.port - self.source_port > 0) {
+            debug('server started after incrementing the port ', (self.port - self.source_port), 'times');
+        }
+        debug('server started on port: ' + self.port);
         callback(null, self.getAvailableWebsites());
+    }).on('error', function(error) {
+        debug('error: ' + error);
+        self.port++;
+        return self.start(callback);
     });
 };
 

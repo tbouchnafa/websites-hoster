@@ -23,21 +23,30 @@ describe('Webserver Class', function () {
     });
 
     describe('#start()', function () {
+
         it('check if websites were found', function (done) {
             this.timeout(60000);
-
-            assert.equal(server.port, pjson.config.port);
 
             assert.equal(Object.keys(websites).length > 0, true, 'no websites found');
 
             assert.ok(websites['cassing.de']);
-            assert.equal(websites['cassing.de'], 'http://localhost:7777/cassing.de/index.html');
+            assert.equal(websites['cassing.de'].indexOf('/cassing.de/index.html') > -1, true);
 
-            needle.get(websites['cassing.de'], function(error, response) {
+            needle.get(websites['cassing.de'], function (error, response) {
                 assert.ifError(error);
                 assert.ok(response.body);
                 done();
             })
+        });
+
+        it('check start on the same server', function (done) {
+            this.timeout(60000);
+            server.start(function (error, result) {
+                assert.ifError(error);
+                assert.ok(result);
+                assert.equal(server.port > server.source_port, true);
+                done();
+            });
         });
     });
 });
