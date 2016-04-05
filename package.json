@@ -21,6 +21,7 @@
     "port": 7777
   },
   "devDependencies": {
+    "async": "^1.5.2",
     "mocha": "^2.4.5",
     "needle": "^1.0.0"
   },
