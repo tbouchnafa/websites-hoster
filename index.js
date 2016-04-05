@@ -28,7 +28,7 @@ Webserver.prototype.start = function (callback) {
     this.server = app.listen(this.port, function () {
         var port_retries = self.port - self.source_port;
 
-        if(port_retries >= 9) {
+        if(port_retries > 9) {
             debug('all ports between [' + this.source_port + '...' + this.port + ']', ' tried and failed to start server!');
             return callback(new Error('PORTS_ARE_TAKEN'));
         } else if(port_retries > 0) {
