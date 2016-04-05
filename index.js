@@ -26,11 +26,18 @@ Webserver.prototype.start = function (callback) {
     });
 
     this.server = app.listen(this.port, function () {
-        if(self.port - self.source_port > 0) {
-            debug('server started after incrementing the port ', (self.port - self.source_port), 'times');
+        var port_retries = self.port - self.source_port;
+
+        if(port_retries > 10) {
+            debug('all ports between [' + this.source_port + '...' + this.port + ']', ' tried and failed to start server!');
+            return callback(new Error('PORTS_ARE_TAKEN'));
+        } else if(port_retries > 0) {
+            debug('server started after incrementing the port ', port_retries, 'times');
         }
+
         debug('server started on port: ' + self.port);
         callback(null, self.getAvailableWebsites());
+
     }).on('error', function(error) {
         debug('error: ' + error);
         self.port++;
