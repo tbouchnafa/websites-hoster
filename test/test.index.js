@@ -18,10 +18,10 @@ describe('Webserver Class', function () {
                 assert.ifError(error);
                 assert.equal(Object.keys(websites).length > 0, true, 'no websites found');
 
-                assert.ok(websites['cassing.de']);
-                assert.equal(websites['cassing.de'].indexOf('/cassing.de/index.html') > -1, true);
+                assert.ok(websites['example.com']);
+                assert.equal(websites['example.com'].indexOf('/example.com/index.html') > -1, true);
 
-                needle.get(websites['cassing.de'], function (error, response) {
+                needle.get(websites['example.com'], function (error, response) {
                     assert.ifError(error);
                     assert.ok(response.body);
                     server.close(done);

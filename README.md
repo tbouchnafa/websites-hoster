@@ -19,6 +19,6 @@ server.start(function (error, result) {
 
 ```json
 {
-    "cassing.de": "http://localhost:9900/cassing.de/index.html"
+  "example.com": "http://localhost:9900/example.com/index.html"
 }
 ```
