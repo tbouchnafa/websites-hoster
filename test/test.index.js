@@ -1,7 +1,8 @@
 "use strict";
 
+var path = require('path');
 var assert = require('assert');
-var needle = require('needle');
+var request = require('request');
 var async = require('async');
 
 describe('Webserver Class', function () {
@@ -13,19 +14,18 @@ describe('Webserver Class', function () {
 
         it('check if websites were found', function (done) {
             this.timeout(60000);
-            var websites;
             server.start(function(error, websites) {
                 assert.ifError(error);
-                assert.equal(Object.keys(websites).length > 0, true, 'no websites found');
+                assert.ok(websites);
 
                 assert.ok(websites['example.com']);
                 assert.equal(websites['example.com'].indexOf('/example.com/index.html') > -1, true);
 
-                needle.get(websites['example.com'], function (error, response) {
+                request.get(websites['example.com'], function (error, response, body) {
                     assert.ifError(error);
-                    assert.ok(response.body);
+                    assert.ok(body);
                     server.close(done);
-                })
+                });
             });
         });
     });
@@ -37,7 +37,14 @@ describe('Webserver Class', function () {
 
             var start = function(cb) {
                 server.start(function(error, websites) {
-                    console.log(JSON.stringify(websites, null, 2));
+                    assert.ok(websites);
+                    cb(error);
+                });
+            };
+
+            var startthatFails = function(cb) {
+                server.start(function(error) {
+                    assert.ok(error);
                     cb(error);
                 });
             };
@@ -46,11 +53,10 @@ describe('Webserver Class', function () {
                 server.close(cb);
             };
 
-            async.waterfall([start, start, start, start, start, start, start, start, start, start, start], function(error){
-                // could not start ther server 11 times error != null
+            async.waterfall([start, start, start, start, start, start, start, start, start, start, startthatFails], function(error) {
+                // could not start the server 11 times error != null
                 assert.ok(error);
-                async.waterfall([close, close, close, close, close, close, close, close, close, close], function(error){
-
+                async.waterfall([close, close, close, close, close, close, close, close, close, close], function(error) {
                     // closing...
                     assert.ifError(error);
                     done();
@@ -60,4 +66,37 @@ describe('Webserver Class', function () {
 
         });
     });
+
+    var _server = new Webserver(path.join(__dirname, '../resources/websites'), '127.0.0.1', 9600);
+    describe('#start() server on provided port', function () {
+
+        it('check start', function (done) {
+            this.timeout(60000);
+
+            var start = function(cb) {
+                _server.start(function(error) {
+                    cb(error);
+                });
+            };
+
+            var startThatFails = function(cb) {
+                _server.start(function(error) {
+                    assert.ok(error);
+                    cb(error);
+                });
+            };
+
+            var close = function(cb) {
+                server.close(cb);
+            };
+
+            async.waterfall([start, startThatFails], function(error) {
+                assert.ok(error);
+                assert.equal(error.code, 'EADDRINUSE');
+                close(done);
+            });
+
+        });
+    });
+
 });

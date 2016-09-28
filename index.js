@@ -8,13 +8,18 @@ var debug = require('debug')('websites-hoster:server');
 var app = express();
 
 function Webserver(websites_folder, host, port) {
+
     this.websites_folder = websites_folder ? websites_folder : path.join(__dirname, 'resources/websites');
-    this.host = host ? host : pjson.config.host;
-    this.port = port ? port : pjson.config.port;
-    this.source_port = port ? port : pjson.config.port;
+
+    this.host = host || pjson.config.host;
+    this.port = port || pjson.config.port;
+    this.source_port = port || pjson.config.port;
+    this.port_provided = (port !== undefined && port !== null);
+
     if (path.resolve(this.websites_folder) !== this.websites_folder) {
         this.websites_folder = path.resolve(this.websites_folder);
     }
+
     this.server = null;
 }
 
@@ -40,6 +45,9 @@ Webserver.prototype.start = function (callback) {
 
     }).on('error', function(error) {
         debug('error: ' + error);
+        if(self.port_provided) {
+            return callback(error);
+        }
         self.port++;
         return self.start(callback);
     });

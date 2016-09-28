@@ -1,6 +1,6 @@
 {
   "name": "websites-hoster",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "local webserver to host some local websites ",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "devDependencies": {
     "async": "^1.5.2",
     "mocha": "^2.4.5",
-    "needle": "^1.0.0"
+    "request": "^2.75.0"
   },
   "directories": {
     "test": "test"
